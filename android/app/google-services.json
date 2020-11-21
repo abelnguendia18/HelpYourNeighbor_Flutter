@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "611686650997",
+    "firebase_url": "https://helpyourneighbor-flutter.firebaseio.com",
+    "project_id": "helpyourneighbor-flutter",
+    "storage_bucket": "helpyourneighbor-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611686650997:android:ed9f8885e8c4c4d166543c",
+        "android_client_info": {
+          "package_name": "com.natg40004.help_your_neighbor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611686650997-tqs9mlbulah97pgtjpuj2tqiic1g0d3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzOPbyKI6mx3R9TSMowPcIES3dsPYNsQI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611686650997-tqs9mlbulah97pgtjpuj2tqiic1g0d3i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
