@@ -28,6 +28,7 @@ class _SingUpHomeState extends State<SingUpHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+
         child: Column(
           children: <Widget>[
             ClipPath(
@@ -74,74 +75,76 @@ class _SingUpHomeState extends State<SingUpHome> {
                 ],
               ),
             ),*/
-            Container(
-              width: 320.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  _buildTextField(_nameController, Icons.account_circle, 'Username'),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  _buildTextField(_numberController, Icons.phone, 'Telefonnummer'),
-                  SizedBox(height: 10.0,),
-                  _buildTextField(_emailController, Icons.mail, 'E-Mail'),
-                  SizedBox(height: 10.0,),
-                  _buildTextField(_passwordController, Icons.lock, 'Password'),
-                  SizedBox(height: 20.0),
-                  Container(
-                    height: 40.0,
-                    width: 300.0,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(5.0),
-                      shadowColor: Colors.green,
-                      color: _greenApp,
-                      elevation: 2.0,
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: Center(
-                          child: Text('REGISTRIEREN'),
+            Form(
+              child: Container(
+                width: 320.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    _buildTextField( Icons.account_circle, 'Username'),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    _buildTextField( Icons.phone, 'Telefonnummer'),
+                    SizedBox(height: 10.0,),
+                    _buildTextField( Icons.mail, 'E-Mail'),
+                    SizedBox(height: 10.0,),
+                    _buildTextField( Icons.lock, 'Password'),
+                    SizedBox(height: 20.0),
+                    Container(
+                      height: 40.0,
+                      width: 300.0,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(5.0),
+                        shadowColor: Colors.green,
+                        color: _greenApp,
+                        elevation: 2.0,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Center(
+                            child: Text('REGISTRIEREN'),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            'Haben Sie schon ein Konto?',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                              MaterialPageRoute(builder:
-                              (context) => Login()),
-                              );
-                            },
-                            child: Text(
-                              ' Sich einloggen',
-                              style: TextStyle(
-                                  color: _greenApp,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15.0),
-                            ),
-                          ),
-                        ),
-                      ],
+                    SizedBox(
+                      height: 20.0,
                     ),
-                  ),
-                ],
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            child: Text(
+                              'Haben Sie schon ein Konto?',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder:
+                                      (context) => Login()),
+                                );
+                              },
+                              child: Text(
+                                ' Sich einloggen',
+                                style: TextStyle(
+                                    color: _greenApp,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -150,7 +153,7 @@ class _SingUpHomeState extends State<SingUpHome> {
     );
   }
 
-  Widget _buildTextField(
+/*  Widget _buildTextField(
       TextEditingController controller, IconData icon, String labelText) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -161,6 +164,30 @@ class _SingUpHomeState extends State<SingUpHome> {
       ),
       child: TextField(
         controller: controller,
+        style: TextStyle(color: Colors.black),
+        decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+            labelText: labelText,
+            labelStyle: TextStyle(color: _greenApp),
+            icon: Icon(
+              icon,
+              color: _greenApp,
+            ),
+            // prefix: Icon(icon),
+            border: InputBorder.none),
+      ),
+    );
+  }*/
+
+  Widget _buildTextField(IconData icon, String labelText) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: _greenApp),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: TextFormField(
         style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10),

@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:help_your_neighbor/src/screens/login_screen.dart';
+import 'package:help_your_neighbor/src/screens/login_screen_2.dart';
 import 'package:help_your_neighbor/src/screens/onboarding.dart';
 import 'package:help_your_neighbor/src/utils.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
-
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -26,7 +27,7 @@ class HomeSplashScreen extends StatefulWidget {
 
 class _HomeSplashScreenState extends State<HomeSplashScreen> {
   @override
- void initState() {
+  void initState() {
     // TODO: implement initState
     super.initState();
 
@@ -38,17 +39,16 @@ class _HomeSplashScreenState extends State<HomeSplashScreen> {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => MyApp())); //Onboarding
       } else {
-        if (Navigator.canPop(context)) {
-          Navigator.pop(context);
-        } else {
-          SystemNavigator.pop();
-        }
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Login()),
+        );
       }
     });
   }
 
   @override
- Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
