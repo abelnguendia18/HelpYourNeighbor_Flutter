@@ -92,6 +92,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  curved_navigation_bar:
+    dependency: "direct dev"
+    description:
+      name: curved_navigation_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.7"
+  double_back_to_close_app:
+    dependency: "direct dev"
+    description:
+      name: double_back_to_close_app
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   eva_icons_flutter:
     dependency: "direct dev"
     description:

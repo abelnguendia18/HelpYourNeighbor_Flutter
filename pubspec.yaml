@@ -44,6 +44,8 @@ dev_dependencies:
   fluttertoast: ^7.1.6
   build_context: ^2.0.4
   eva_icons_flutter: ^2.0.1
+  curved_navigation_bar: ^0.3.7
+  double_back_to_close_app: ^1.2.0
 
 flutter_icons:
     android: "launcher_icon"
