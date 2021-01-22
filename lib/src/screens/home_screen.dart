@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:help_your_neighbor/src/screens/widgets/search_bar.dart';
 import 'package:help_your_neighbor/src/screens/my_account_screen.dart';
+import 'package:help_your_neighbor/src/screens/new_announcement_screen.dart';
 import 'package:help_your_neighbor/src/screens/widgets/announcements_list.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
@@ -75,11 +76,6 @@ class _HomeScreenStatefulState extends State<HomeScreenStateful> {
           _page == 1
               ? Center(
                   child: Text("Favoriten"),
-                )
-              : Container(),
-          _page == 2
-              ? Center(
-                  child: Text("Neues Inserat"),
                 )
               : Container(),
 /*          _page == 3
@@ -315,7 +311,10 @@ class _HomeScreenStatefulState extends State<HomeScreenStateful> {
           });
 /*          _page == 3 ? Navigator.push(context,
               MaterialPageRoute(builder: (context) => MyAccountScreen())): null;*/
-          if(_page == 3){
+          if(_page == 2){
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NewAnnouncementScreen()));
+          } else if(_page == 3){
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => MyAccountScreen()));
           }

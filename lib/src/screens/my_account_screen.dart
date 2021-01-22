@@ -59,8 +59,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
               indicatorColor: Colors.white,
               labelColor: Colors.white,
               tabs: <Widget>[
-                Tab(text: "Meine Anzeigen", icon: Icon(Icons.message)),
-                Tab(text: "Mein Profil", icon: Icon(Icons.account_circle),),
+                Tab(text: "Meine Anzeigen", ),
+                Tab(text: "Mein Profil", ),
               ],
             ),
             /*title: TabBar(
@@ -81,7 +81,41 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
               ),
               Center(
-                child: Text("Mein Account"),
+                //child: Text("Mein Account"),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 100,
+                          child: Image.asset("assets/Gartenhilfe.jpg"),
+                        ),
+                        SizedBox(width: 10.0,),
+                        Column(
+                          children: [
+                            Text("Username"),
+                            SizedBox(height: 20.0,),
+                            Text("1234567890"),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 40,),
+                    SizedBox(
+                      width: 200,
+                      height: 40,
+                      child: RaisedButton(
+                          color: _greenApp,
+                          textColor: Colors.black,
+                          child: Text("Ausloggen"),
+                          elevation: 2.0,
+                          onPressed: (){
+
+                          }),
+                    )
+                  ],
+                ),
               ),
             ],
           ),
