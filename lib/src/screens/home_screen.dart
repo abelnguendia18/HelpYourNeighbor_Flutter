@@ -30,6 +30,28 @@ class _HomeScreenStatefulState extends State<HomeScreenStateful> {
   BottomIcons bottomIcons = BottomIcons.Home;
   final Color _greenApp = Color(0xff89ca89);
   int _page = 0;
+  bool tmp = false;
+
+Future<void> internetStatusMessage() async{
+  return showDialog(context: context,
+  builder: (context){
+      return AlertDialog(
+        title: Text("Überprüfen Sie Ihre Internetverbindung!"),
+        actions: [
+          FlatButton(onPressed: null, child: Text("OK"))
+        ],
+      );
+  });
+}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //internetStatusMessage();
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
