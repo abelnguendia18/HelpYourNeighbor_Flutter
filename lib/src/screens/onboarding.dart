@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:help_your_neighbor/src/models/sliderModel.dart';
+import 'package:help_your_neighbor/src/models/slider_model.dart';
 import 'package:help_your_neighbor/src/screens/widgets/sliders.dart';
 
 

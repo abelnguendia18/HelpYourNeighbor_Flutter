@@ -16,6 +16,7 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
   final Color _greenApp = Color(0xff89ca89);
   final Color _grey = Color(0xffdcdcdc);
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  var _userId;
   var imageUrl = null;
   var _groupValue;
   var _selectedCategory;
@@ -29,6 +30,11 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
 
   void _handleRadioValueChange(int value) {
     // debugPrint("value is : $value");
+  }
+  // ignore: must_call_super
+  void initState(){
+
+     _userId = _firebaseAuth.currentUser.uid;
   }
 
   Future<bool> _onBackPressed() {
@@ -81,11 +87,12 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
                           : Image.network(imageUrl),
                       onTap: () async {
                         var userId = _firebaseAuth.currentUser.uid;
-                        if (userId != null) {
+                        if (_userId != null) {
                           //print("User ID: $userId");
                           String url =
                               await AuthenticationService.uploadImage(userId);
                           setState(() {
+                           // _userId = userId;
                             imageUrl = url;
                           });
                           print("URLLL: $url");
@@ -184,7 +191,12 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
                         textColor: Colors.black,
                         child: Text("Anzeige Aufgeben"),
                         elevation: 2.0,
-                        onPressed: () {}),
+                        onPressed: () async {
+                          var userTel;
+                          userTel = await AuthenticationService.getUserTelNumber(_userId);
+                          print("Mon number: $userTel");
+
+                        }),
                   ),
                 ],
               ),

@@ -49,6 +49,7 @@ class AuthenticationService {
     }
   }
 
+// This method returns the download url, as soon as the upload is okay
   static Future<String> uploadImage(String userId) async {
     final _picker = ImagePicker();
     final _storage = FirebaseStorage.instance;
@@ -66,5 +67,19 @@ class AuthenticationService {
     } else {
       return null;
     }
+  }
+
+  static Future<String> getUserTelNumber(String userId) async {
+    var result;
+    try {
+      DocumentSnapshot userModel =
+          await _firestore.collection('users').doc(userId).get();
+      result = userModel['userTelNumber'];
+    } catch (e) {
+      print(e);
+      result = null;
+    }
+
+    return result;
   }
 }
