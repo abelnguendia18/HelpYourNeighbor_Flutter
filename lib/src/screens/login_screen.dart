@@ -130,13 +130,25 @@ class _LoginHomeState extends State<LoginHome> {
                       child: RaisedButton(
                         color: _greenApp,
                         onPressed: () async {
-                          try {
-                            final user = await AuthenticationService.singIn( email: "test1@gmail.com", password: "123456");
-                            if(user != null){
-                              print("OK");
-                            }
-                          } catch (e) {
-                            print(e);
+/*                          final user = await AuthenticationService.singIn(
+                              email: _emailController.text.toString().trim(),
+                              password: _passwordController.text.toString());
+                          if (user != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomeScreen()),
+                            );
+                            print("OK Partenaire");
+                          }*/
+                          var result = await AuthenticationService.singIn(
+                              email: _emailController.text.toString().trim(),
+                              password: _passwordController.text.toString());
+                          if (result) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomeScreen()),
+                            );
+                            print("OK Partenaire");
                           }
 
                           /* Fluttertoast.showToast(
@@ -207,7 +219,7 @@ class _LoginHomeState extends State<LoginHome> {
       ),
       child: TextFormField(
         obscureText: isPasswordField ? true : false,
-        autovalidate: true,
+        autovalidate: false,
         validator: (String value) {
           if (value.isEmpty) {
             return labelText + " kann nicht leer sein";

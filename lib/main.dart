@@ -21,9 +21,9 @@ void main() async{
 // I need to do this in order to access Firebase's services
   await Firebase.initializeApp();
   //runApp(MyApp());
-  //runApp(SplashScreen());
-  runApp(HomeScreen());
-
+ // runApp(SplashScreen());
+  //runApp(HomeScreen());
+runApp(Login());
 }
 
 

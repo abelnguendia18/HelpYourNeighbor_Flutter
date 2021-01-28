@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:help_your_neighbor/src/screens/login_screen.dart';
 import 'package:help_your_neighbor/src/utils.dart';
+import 'package:help_your_neighbor/src/utils/firebase_services.dart';
 
 class SingUp extends StatelessWidget {
   @override
@@ -28,7 +29,6 @@ class _SingUpHomeState extends State<SingUpHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-
         child: Column(
           children: <Widget>[
             ClipPath(
@@ -37,20 +37,22 @@ class _SingUpHomeState extends State<SingUpHome> {
                 height: 180,
                 decoration: BoxDecoration(
                   color: _greenApp,
-
                 ),
                 child: Center(
-                  child: Text('Registrierung',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),),
+                  child: Text(
+                    'Registrierung',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
+                  ),
                 ),
               ),
             ),
-
-            SizedBox(height: 20.0,),
+            SizedBox(
+              height: 20.0,
+            ),
             /*Container(
               padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
               child: Stack(
@@ -81,15 +83,22 @@ class _SingUpHomeState extends State<SingUpHome> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    _buildTextField( Icons.account_circle, 'Username'),
+                    _buildTextField(
+                        _nameController, Icons.account_circle, 'Username'),
                     SizedBox(
                       height: 10.0,
                     ),
-                    _buildTextField( Icons.phone, 'Telefonnummer'),
-                    SizedBox(height: 10.0,),
-                    _buildTextField( Icons.mail, 'E-Mail'),
-                    SizedBox(height: 10.0,),
-                    _buildTextField( Icons.lock, 'Password'),
+                    _buildTextField(
+                        _numberController, Icons.phone, 'Telefonnummer'),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    _buildTextField(_emailController, Icons.mail, 'E-Mail'),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    _buildTextField(
+                        _passwordController, Icons.lock, 'Password'),
                     SizedBox(height: 20.0),
                     Container(
                       height: 40.0,
@@ -99,8 +108,25 @@ class _SingUpHomeState extends State<SingUpHome> {
                         shadowColor: Colors.green,
                         color: _greenApp,
                         elevation: 2.0,
-                        child: GestureDetector(
-                          onTap: () {},
+                        child: RaisedButton(
+                          color: _greenApp,
+                          onPressed: () async {
+                            var user = await (AuthenticationService.singUp(
+                                userName:
+                                    _nameController.text.toString().trim(),
+                                email: _emailController.text.toString().trim(),
+                                password: _passwordController.text.toString(),
+                                userTelNumber:
+                                    _numberController.text.toString().trim()));
+                            if(user != null){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => Login()),
+                              );
+                              print("User ID: ${user.uid}");
+                            }
+
+                          },
                           child: Center(
                             child: Text('REGISTRIEREN'),
                           ),
@@ -127,8 +153,8 @@ class _SingUpHomeState extends State<SingUpHome> {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder:
-                                      (context) => Login()),
+                                  MaterialPageRoute(
+                                      builder: (context) => Login()),
                                 );
                               },
                               child: Text(
@@ -179,7 +205,8 @@ class _SingUpHomeState extends State<SingUpHome> {
     );
   }*/
 
-  Widget _buildTextField(IconData icon, String labelText) {
+  Widget _buildTextField(
+      TextEditingController controller, IconData icon, String labelText) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
@@ -188,6 +215,7 @@ class _SingUpHomeState extends State<SingUpHome> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: TextFormField(
+        controller: controller,
         style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10),
@@ -203,5 +231,3 @@ class _SingUpHomeState extends State<SingUpHome> {
     );
   }
 }
-
-

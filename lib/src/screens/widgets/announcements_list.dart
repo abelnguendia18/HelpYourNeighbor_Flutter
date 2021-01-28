@@ -21,12 +21,19 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
     "Description 1",
     "Description 2",
     "Description 3",
-    "Description 4"
+    "Description 4",
         "Description 5",
     "Description 6"
   ];
 
-  var _imagePath = [""];
+  var _imagePath = [
+        "assets/Einkaufshilfe_1.png",
+        "assets/Gartenhilfe.jpg",
+        "assets/Einkaufshilfe_2.jpg",
+        "assets/gassi.PNG",
+        "assets/Einkaufshilfe.jpg",
+        "assets/Hundesitter.jpg"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +55,7 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                           //image
                           width: 100.0,
                           height: 100.0,
-                          child: Image.asset("assets/Einkaufshilfe_1.png"),
+                          child: Image.asset(_imagePath[index]),
                         ),
                         Padding(
                           padding: EdgeInsets.all(10.0),
@@ -111,10 +118,12 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                           width: 10,
                         ),
                         IconButton(
-                          icon: Icon(EvaIcons.heartOutline, color: _greenApp, size: 30,),
-                          onPressed: (){
-
-                          },
+                          icon: Icon(
+                            EvaIcons.heartOutline,
+                            color: _greenApp,
+                            size: 30,
+                          ),
+                          onPressed: () {},
                         ),
                         //Icon(EvaIcons.heartOutline, color: _greenApp, size: 30, )
                       ],

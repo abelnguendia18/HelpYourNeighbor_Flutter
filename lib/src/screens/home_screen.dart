@@ -32,25 +32,22 @@ class _HomeScreenStatefulState extends State<HomeScreenStateful> {
   int _page = 0;
   bool tmp = false;
 
-Future<void> internetStatusMessage() async{
-  return showDialog(context: context,
-  builder: (context){
-      return AlertDialog(
-        title: Text("Überprüfen Sie Ihre Internetverbindung!"),
-        actions: [
-          FlatButton(onPressed: null, child: Text("OK"))
-        ],
-      );
-  });
-}
+  Future<void> internetStatusMessage() async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Überprüfen Sie Ihre Internetverbindung!"),
+            actions: [FlatButton(onPressed: null, child: Text("OK"))],
+          );
+        });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     //internetStatusMessage();
-
-
   }
 
   @override
@@ -333,10 +330,12 @@ Future<void> internetStatusMessage() async{
           });
 /*          _page == 3 ? Navigator.push(context,
               MaterialPageRoute(builder: (context) => MyAccountScreen())): null;*/
-          if(_page == 2){
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => NewAnnouncementScreen()));
-          } else if(_page == 3){
+          if (_page == 2) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NewAnnouncementScreen()));
+          } else if (_page == 3) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => MyAccountScreen()));
           }
