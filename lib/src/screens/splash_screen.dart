@@ -32,8 +32,8 @@ class _HomeSplashScreenState extends State<HomeSplashScreen> {
     super.initState();
 
     Timer(Duration(seconds: 3), () async {
-      bool isSecondTime = await isSecondTimeAppExecuted();
-      setSecondTimeOfAppExecution();
+      bool isSecondTime = await Utils.isSecondTimeAppExecuted();
+      Utils.setSecondTimeOfAppExecution();
       //It means the App is launched for the first time
       if (!isSecondTime) {
         Navigator.push(context,

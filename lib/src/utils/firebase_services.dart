@@ -2,21 +2,53 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:help_your_neighbor/src/models/announcement_model.dart';
 import 'package:help_your_neighbor/src/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
 class AuthenticationService {
-  static FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  static FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  static final CollectionReference userCollection =
-      _firestore.collection('users');
+  static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  static FirebaseFirestore firestore = FirebaseFirestore.instance;
+  static CollectionReference userCollection = firestore.collection('users');
+  static CollectionReference announcementCollection =
+      firestore.collection('announcements');
+
+  static Future<String> getCurrentUserId() async {
+    String uid = await firebaseAuth.currentUser.uid;
+
+    return uid;
+  }
+
+  static Future<String> saveAnnouncement(Announcement announcement) async {
+    String result;
+    Map<String, dynamic> data = {
+      "category": announcement.categoryAnnouncement,
+      "description": announcement.descriptionAnnouncement,
+      "imagePath": announcement.imagePath,
+      "ownerAddress": announcement.ownerAddress,
+      "ownerId": announcement.ownerId,
+      "ownerPhoneNumber": announcement.ownerPhoneNumber,
+      "price": announcement.priceAnnouncement,
+      "status": announcement.statusAnnouncement,
+      "isFavorite": announcement.isFavorite
+    };
+    try {
+      await announcementCollection.add(data);
+      result = "Ok";
+    } catch (e) {
+      result = "Ko";
+      print(e);
+    }
+
+    return result;
+  }
 
   static Future<bool> singIn({String email, String password}) async {
     bool temp;
     try {
-      final result = await (_firebaseAuth.signInWithEmailAndPassword(
+      final result = await (firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password));
       final User user = result.user;
       //return user;
@@ -34,7 +66,7 @@ class AuthenticationService {
       String email,
       String password}) async {
     try {
-      final result = await (_firebaseAuth.createUserWithEmailAndPassword(
+      final result = await (firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password));
       var userId = result.user.uid;
       await (userCollection.document(userId).setData({
@@ -73,7 +105,7 @@ class AuthenticationService {
     var result;
     try {
       DocumentSnapshot userModel =
-          await _firestore.collection('users').doc(userId).get();
+          await firestore.collection('users').doc(userId).get();
       result = userModel['userTelNumber'];
     } catch (e) {
       print(e);
@@ -81,5 +113,28 @@ class AuthenticationService {
     }
 
     return result;
+  }
+
+  static Future<void> updateFavoriteState(String documentId, String newValue) async {
+    try {
+
+          await firestore.collection('announcements').doc(documentId).update({"isFavorite" : newValue});
+
+    } catch (e) {
+      print(e);
+    }
+
+  }
+
+  static Future getAnnouncementsList() async {
+    QuerySnapshot query = await announcementCollection.get();
+
+    return query.docs;
+  }
+
+  static Future getFavoritesList() async {
+    QuerySnapshot query = await announcementCollection.where("isFavorite", isEqualTo: "ja" ).get();
+
+    return query.docs;
   }
 }

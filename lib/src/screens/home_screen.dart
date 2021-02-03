@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:help_your_neighbor/src/screens/favorites_screen.dart';
 import 'package:help_your_neighbor/src/screens/widgets/search_bar.dart';
 import 'package:help_your_neighbor/src/screens/my_account_screen.dart';
 import 'package:help_your_neighbor/src/screens/new_announcement_screen.dart';
@@ -31,6 +32,7 @@ class _HomeScreenStatefulState extends State<HomeScreenStateful> {
   final Color _greenApp = Color(0xff89ca89);
   int _page = 0;
   bool tmp = false;
+  int totalFavorites;
 
   Future<void> internetStatusMessage() async {
     return showDialog(
@@ -89,13 +91,45 @@ class _HomeScreenStatefulState extends State<HomeScreenStateful> {
                         child: AnnouncementsList(),
                       )
                     ],
+
                   ),
                 )
               : Container(),
           _page == 1
-              ? Center(
-                  child: Text("Favoriten"),
+              ? Container(
+            //Favoriten
+
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 5, right: 5, top: 40),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        "Favoriten",
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                    ],
+                  ),
+                ),
+
+                //SearchBar(),
+                SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: FavoritesScreen(),
                 )
+              ],
+
+            ),
+          )
               : Container(),
 /*          _page == 3
               ? Navigator.push(context,

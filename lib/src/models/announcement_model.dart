@@ -1,5 +1,5 @@
 class Announcement{
-String announcementId;
+//String announcementId;
 String categoryAnnouncement;
 String descriptionAnnouncement;
 String imagePath;
@@ -8,8 +8,9 @@ String ownerId;
 String ownerPhoneNumber;
 String priceAnnouncement;
 String statusAnnouncement;
+String isFavorite ;
 
-Announcement({this.announcementId, this.categoryAnnouncement, this.descriptionAnnouncement, this.imagePath,
-this.ownerAddress, this.ownerId, this.ownerPhoneNumber, this.priceAnnouncement, this.statusAnnouncement});
+Announcement({this.categoryAnnouncement, this.descriptionAnnouncement, this.imagePath,
+this.ownerAddress, this.ownerId, this.ownerPhoneNumber, this.priceAnnouncement, this.statusAnnouncement, this.isFavorite});
 
 }

@@ -9,6 +9,8 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   bool _isFocusReceived = false;
   final Color _greenApp = Color(0xff89ca89);
+  TextEditingController _searchController = TextEditingController();
+  var _searchParameter;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,15 @@ class _SearchBarState extends State<SearchBar> {
             padding: EdgeInsets.only(left: 16),
             child: _isFocusReceived
                 ? TextField(
+              controller: _searchController,
+                    onChanged: (value){
+
+                    /*    setState(() {
+                          _searchParameter = value;
+
+                        });*/
+                        print("Search Param: ${_searchController.text.toString().trim()}");
+                    },
                     decoration: InputDecoration(
                       hintText: "Suche nach Stadt filtern",
                       hintStyle: TextStyle(color: Colors.black12),

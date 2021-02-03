@@ -218,6 +218,7 @@ class _LoginHomeState extends State<LoginHome> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
         obscureText: isPasswordField ? true : false,
         autovalidate: false,
         validator: (String value) {

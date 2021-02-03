@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:help_your_neighbor/src/screens/home_screen.dart';
 import 'package:help_your_neighbor/src/screens/login_screen.dart';
+import 'package:help_your_neighbor/src/screens/my_account_screen.dart';
 import 'package:help_your_neighbor/src/screens/onboarding.dart';
 import 'package:help_your_neighbor/src/screens/sing_up_screen.dart';
 import 'package:help_your_neighbor/src/screens/splash_screen.dart';
@@ -23,6 +24,7 @@ void main() async{
   //runApp(MyApp());
  // runApp(SplashScreen());
   //runApp(HomeScreen());
+  //runApp(MyAccountScreen());
 runApp(Login());
 }
 
