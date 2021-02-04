@@ -91,45 +91,43 @@ class _HomeScreenStatefulState extends State<HomeScreenStateful> {
                         child: AnnouncementsList(),
                       )
                     ],
-
                   ),
                 )
               : Container(),
           _page == 1
               ? Container(
-            //Favoriten
+                  //Favoriten
 
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 5, right: 5, top: 40),
-                  child: Row(
+                  child: Column(
                     children: <Widget>[
-                      Text(
-                        "Favoriten",
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: EdgeInsets.only(left: 5, right: 5, top: 40),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "Favoriten",
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                          ],
                         ),
                       ),
+
+                      //SearchBar(),
                       SizedBox(
-                        width: 5,
+                        height: 20,
                       ),
+                      Expanded(
+                        child: FavoritesScreen(),
+                      )
                     ],
                   ),
-                ),
-
-                //SearchBar(),
-                SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: FavoritesScreen(),
                 )
-              ],
-
-            ),
-          )
               : Container(),
 /*          _page == 3
               ? Navigator.push(context,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:help_your_neighbor/src/screens/announcement_details_screen.dart';
 import 'package:help_your_neighbor/src/screens/home_screen.dart';
 import 'package:help_your_neighbor/src/screens/login_screen.dart';
 import 'package:help_your_neighbor/src/screens/my_account_screen.dart';
@@ -25,7 +26,8 @@ void main() async{
  // runApp(SplashScreen());
   //runApp(HomeScreen());
   //runApp(MyAccountScreen());
-runApp(Login());
+   //runApp(AnnouncementDetailsScreen());
+  runApp(Login());
 }
 
 

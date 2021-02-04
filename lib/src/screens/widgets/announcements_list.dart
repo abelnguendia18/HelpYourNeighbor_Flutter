@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:help_your_neighbor/src/models/announcement_model.dart';
+import 'package:help_your_neighbor/src/screens/announcement_details_screen.dart';
 import 'package:help_your_neighbor/src/utils/firebase_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,8 +45,24 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-
-                    print("Tandannnnn: ${snapshot.data[index].id}");
+                    Announcement announcement = Announcement(
+                        categoryAnnouncement: snapshot.data[index]['category'],
+                        isFavorite: snapshot.data[index]['isFavorite'],
+                        statusAnnouncement: snapshot.data[index]['status'],
+                        priceAnnouncement: snapshot.data[index]['price'],
+                        ownerPhoneNumber: snapshot.data[index]['ownerPhoneNumber'],
+                        ownerId: snapshot.data[index]['ownerId'],
+                        ownerAddress: snapshot.data[index]['ownerAddress'],
+                        imagePath: snapshot.data[index]['imagePath'],
+                        descriptionAnnouncement: snapshot.data[index]['description']);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  AnnouncementDetailsScreenState (announcement: announcement),
+                          //settings: RouteSettings(arguments: announcement),
+                        )
+                    );
+                    print("category: ${snapshot.data[index]['category']}");
                   },
 
                   // We don't need to show here the announcements created by the current User.
@@ -126,28 +144,38 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                                       width: 250,
                                     ),
                                     IconButton(
-                                      icon: snapshot.data[index]['isFavorite'] == "ja" ? Icon(
-                                        Icons.favorite,
-                                        color: Colors.red,
-                                        size: 30,
-                                      ): Icon( Icons.favorite_border_outlined, color: _greenApp),
+                                      icon: snapshot.data[index]
+                                                  ['isFavorite'] ==
+                                              "ja"
+                                          ? Icon(
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                              size: 30,
+                                            )
+                                          : Icon(Icons.favorite_border_outlined,
+                                              color: _greenApp),
                                       onPressed: () async {
-                                        if(snapshot.data[index]['isFavorite'] == "ja") {
+                                        if (snapshot.data[index]
+                                                ['isFavorite'] ==
+                                            "ja") {
                                           await AuthenticationService
                                               .updateFavoriteState(
-                                              snapshot.data[index].id
-                                                  .toString(), "nein");
-                                        }else if(snapshot.data[index]['isFavorite'] == "nein"){
-
+                                                  snapshot.data[index].id
+                                                      .toString(),
+                                                  "nein");
+                                        } else if (snapshot.data[index]
+                                                ['isFavorite'] ==
+                                            "nein") {
                                           await AuthenticationService
                                               .updateFavoriteState(
-                                              snapshot.data[index].id
-                                                  .toString(), "ja");
+                                                  snapshot.data[index].id
+                                                      .toString(),
+                                                  "ja");
                                         }
                                         setState(() {
-                                          bigRslt = AuthenticationService.getAnnouncementsList();
+                                          bigRslt = AuthenticationService
+                                              .getAnnouncementsList();
                                         });
-
                                       },
                                     ),
                                     //Icon(EvaIcons.heartOutline, color: _greenApp, size: 30, )
@@ -167,14 +195,14 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
     );
   }
 
-  Widget isFavorite(bool value){
-
-    if(value == true){
-
-      return Icon(Icons.favorite, color: Colors.red,);
-    } else{
+  Widget isFavorite(bool value) {
+    if (value == true) {
+      return Icon(
+        Icons.favorite,
+        color: Colors.red,
+      );
+    } else {
       return Icon(Icons.favorite, color: _greenApp);
     }
-
   }
 }

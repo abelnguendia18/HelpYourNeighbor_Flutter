@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:help_your_neighbor/src/models/announcement_model.dart';
+import 'package:help_your_neighbor/src/screens/home_screen.dart';
 import 'package:help_your_neighbor/src/utils/firebase_services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -64,6 +65,24 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: Icon(
+                  Icons.arrow_back_outlined,
+                  size: 30,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomeScreen()));
+                  //Scaffold.of(context).openDrawer();
+                },
+              );
+            },
+          ),
           centerTitle: true,
           title: Text("Neues Inserat",
               style: TextStyle(
@@ -71,7 +90,6 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
                   fontSize: 30.0,
                   fontWeight: FontWeight.bold)),
           backgroundColor: _greenApp,
-          automaticallyImplyLeading: false,
         ),
         //resizeToAvoidBottomInset: false,
         //resizeToAvoidBottomPadding: false,
@@ -233,7 +251,9 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
                           String result =
                               await AuthenticationService.saveAnnouncement(
                                   announcement);
-                          if (result == "OK") {
+
+                          print("Result of insertion: $result");
+                          /*if (result == "OK") {
                             showFlash(
                                 context: context,
                                 duration: Duration(seconds: 4),
@@ -251,7 +271,7 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
                                             "Ihre Anzeige wurde erfolgreich erstellt."),
                                       ));
                                 });
-                          }
+                          }*/
                         }),
                   ),
                 ],
