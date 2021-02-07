@@ -37,7 +37,12 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
             return Center(
               child: Text("Daten werden geladen ..."),
             );
-          } else {
+          }
+          else if(snapshot.data.length < 1) {
+            return Center(
+              child: Text("Es sind keine Anzeigen verfügbar...", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),),
+            );
+          }else{
             return Expanded(
                 child: ListView.builder(
               //shrinkWrap: true,
@@ -50,18 +55,20 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                         isFavorite: snapshot.data[index]['isFavorite'],
                         statusAnnouncement: snapshot.data[index]['status'],
                         priceAnnouncement: snapshot.data[index]['price'],
-                        ownerPhoneNumber: snapshot.data[index]['ownerPhoneNumber'],
+                        ownerPhoneNumber: snapshot.data[index]
+                            ['ownerPhoneNumber'],
                         ownerId: snapshot.data[index]['ownerId'],
                         ownerAddress: snapshot.data[index]['ownerAddress'],
                         imagePath: snapshot.data[index]['imagePath'],
-                        descriptionAnnouncement: snapshot.data[index]['description']);
+                        descriptionAnnouncement: snapshot.data[index]
+                            ['description']);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>  AnnouncementDetailsScreenState (announcement: announcement),
+                          builder: (context) => AnnouncementDetailsScreenState(
+                              announcement: announcement),
                           //settings: RouteSettings(arguments: announcement),
-                        )
-                    );
+                        ));
                     print("category: ${snapshot.data[index]['category']}");
                   },
 
@@ -100,15 +107,19 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          Text(
-                                            snapshot.data[index]['description'],
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.normal,
+                                          Container(
+                                            width: 200.0,
+                                            child: Text(
+                                              snapshot.data[index]
+                                                  ['description'],
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                              maxLines: 8,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            maxLines: 3,
-                                            softWrap: true,
                                           ),
                                         ],
                                       ),
@@ -117,7 +128,8 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                                 ),
                               ),
                               Container(
-                                //Group 2: location, price
+                                width: 900,
+                                //Group 2: location, favIcon
                                 child: Row(
                                   children: <Widget>[
                                     Icon(
@@ -128,22 +140,20 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                                     SizedBox(
                                       width: 3,
                                     ),
-                                    Text(
-                                      snapshot.data[index]['ownerAddress'],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: "Roboto"),
+                                    Container(
+                                      width: 150.0,
+                                      child: Text(
+                                        snapshot.data[index]['ownerAddress'],
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: "Roboto"),
+                                      ),
                                     ),
 
-                                    /* Icon(
-                          Icons.share_outlined,
-                          color: _greenApp,
-                          size: 30,
-                        ),*/
-                                    SizedBox(
-                                      width: 250,
-                                    ),
-                                    IconButton(
+                                   Container(
+                                     padding: EdgeInsets.only(left: 150),
+
+                                        child: IconButton(
                                       icon: snapshot.data[index]
                                                   ['isFavorite'] ==
                                               "ja"
@@ -153,7 +163,7 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                                               size: 30,
                                             )
                                           : Icon(Icons.favorite_border_outlined,
-                                              color: _greenApp),
+                                              color: _greenApp, size: 30,),
                                       onPressed: () async {
                                         if (snapshot.data[index]
                                                 ['isFavorite'] ==
@@ -177,7 +187,14 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                                               .getAnnouncementsList();
                                         });
                                       },
-                                    ),
+                                    )),
+
+                                    /* Icon(
+                          Icons.share_outlined,
+                          color: _greenApp,
+                          size: 30,
+                        ),*/
+
                                     //Icon(EvaIcons.heartOutline, color: _greenApp, size: 30, )
                                   ],
                                 ),
@@ -185,7 +202,9 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                             ],
                           ),
                         )
-                      : Container(),
+                      : Container(
+
+                  ),
                 );
               },
             ));

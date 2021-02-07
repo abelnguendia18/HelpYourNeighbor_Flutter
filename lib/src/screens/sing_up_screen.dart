@@ -24,10 +24,12 @@ class _SingUpHomeState extends State<SingUpHome> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _globalKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _globalKey,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -118,14 +120,32 @@ class _SingUpHomeState extends State<SingUpHome> {
                                 password: _passwordController.text.toString(),
                                 userTelNumber:
                                     _numberController.text.toString().trim()));
-                            if(user != null){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Login()),
+                            if (user != null) {
+                              final snackBar = SnackBar(
+                                duration: Duration(seconds: 10),
+                                content: Text("Konto erfolgreich erstellt."),
+                                backgroundColor: _greenApp,
+                                action: SnackBarAction(
+                                  label: 'Login',
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Login()),
+                                    );
+                                  },
+                                ),
                               );
+                              _globalKey.currentState.showSnackBar(snackBar);
+
+                           /*   Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Login()),
+                              );*/
+
                               print("User ID: ${user.uid}");
                             }
-
                           },
                           child: Center(
                             child: Text('REGISTRIEREN'),
@@ -215,6 +235,7 @@ class _SingUpHomeState extends State<SingUpHome> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
         controller: controller,
         style: TextStyle(color: Colors.black),
         decoration: InputDecoration(

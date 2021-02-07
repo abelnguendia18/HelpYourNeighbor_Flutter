@@ -16,6 +16,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   final Color _greenApp = Color(0xff89ca89);
   var _currentUserId;
   var _totalAnnouncements = 0;
+  var username;
+  var userPhoneNumber;
 
   Future<bool> _onBackPressed() {
     return showDialog(
@@ -33,9 +35,24 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   @override
   void initState() {
+    _currentUserId = FirebaseAuth.instance.currentUser.uid;
+
+    AuthenticationService.getUsername(_currentUserId).then((String value) {
+      setState(() {
+        username = value;
+      });
+    });
+
+    AuthenticationService.getUserTelNumber(_currentUserId).then((String value) {
+      setState(() {
+        userPhoneNumber = value;
+      });
+    });
+
+
     // TODO: implement initState
     super.initState();
-    _currentUserId = FirebaseAuth.instance.currentUser.uid;
+
   }
 
   @override
@@ -101,20 +118,28 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                   child: FutureBuilder(
                     future: AuthenticationService.getAnnouncementsList(),
                     builder: (_, snapshot) {
-                        _totalAnnouncements = snapshot.data.length;
+                      _totalAnnouncements = snapshot.data.length;
 
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
                           child: Text("Daten werden geladen ..."),
                         );
-                      } else {
+                      }   else if(snapshot.data.length < 1) {
+                        return Center(
+                          child: Text("Sie haben noch keine Azeige angelegt...", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),),
+                        );
+                      }
+                      else {
                         return ListView.builder(
                           //shrinkWrap: true,
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
                             return Dismissible(
                               key: Key('${snapshot.data[index]}'),
-                              background: Container(color: Colors.red, child: Icon(Icons.delete),),
+                              background: Container(
+                                color: Colors.red,
+                                child: Icon(Icons.delete),
+                              ),
                               child: _currentUserId ==
                                       snapshot.data[index]['ownerId']
                                   ? Card(
@@ -154,17 +179,22 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                                       SizedBox(
                                                         height: 10,
                                                       ),
-                                                      Text(
-                                                        snapshot.data[index]
-                                                            ['description'],
-                                                        style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.normal,
+                                                      Container(
+                                                        width: 200.0,
+                                                        child: Text(
+                                                          snapshot.data[index]
+                                                              ['description'],
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                          ),
+                                                          maxLines: 8,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                         ),
-                                                        maxLines: 1,
-                                                        softWrap: true,
                                                       ),
                                                     ],
                                                   ),
@@ -236,11 +266,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           ),
                           Column(
                             children: [
-                              Text("Username"),
+                              Text("$username"),
                               SizedBox(
                                 height: 20.0,
                               ),
-                              Text("1234567890"),
+                              Text("$userPhoneNumber"),
                             ],
                           ),
                         ],

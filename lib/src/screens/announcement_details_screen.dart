@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:help_your_neighbor/src/models/announcement_model.dart';
 import 'package:help_your_neighbor/src/screens/home_screen.dart';
+import 'package:help_your_neighbor/src/utils.dart';
 
 class AnnouncementDetailsScreen extends StatelessWidget {
-
-
   final Color _greenApp = Color(0xff89ca89);
 
   @override
@@ -20,7 +19,9 @@ class AnnouncementDetailsScreen extends StatelessWidget {
 
 class AnnouncementDetailsScreenState extends StatefulWidget {
   Announcement announcement;
-  AnnouncementDetailsScreenState({Key key, @required this.announcement}): super(key: key);
+
+  AnnouncementDetailsScreenState({Key key, @required this.announcement})
+      : super(key: key);
 
   @override
   _AnnouncementDetailsScreenStateState createState() =>
@@ -30,7 +31,10 @@ class AnnouncementDetailsScreenState extends StatefulWidget {
 class _AnnouncementDetailsScreenStateState
     extends State<AnnouncementDetailsScreenState> {
   Announcement announcement;
+  Future<void> _launched;
+
   _AnnouncementDetailsScreenStateState(this.announcement);
+
   final Color greenApp = Color(0xff89ca89);
   var _selectedIndex = 0;
 
@@ -50,6 +54,7 @@ class _AnnouncementDetailsScreenStateState
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
+          backgroundColor: greenApp,
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -66,15 +71,52 @@ class _AnnouncementDetailsScreenStateState
             },
           ),
           title: Text("Details über die Anzeige"),
+          //Text("${announcement.statusAnnouncement}"),
+
         ),
         body: Stack(
           children: <Widget>[
             Container(
+              padding: EdgeInsets.only(top: 60.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text("Beschreibung: ${announcement.descriptionAnnouncement}"),
-                 //Text(announcement.ownerPhoneNumber),
+                  Center(
+                    child: Image.network(
+                      announcement.imagePath,
+                      height: 150.0,
+                      width: 150.0,
+                    ),
+                  ),
 
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  /*   Text("${announcement.statusAnnouncement}",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
+                  ),*/
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "${announcement.descriptionAnnouncement}",
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal, fontSize: 20.0),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 0),
+                    child: Text(
+                      "${announcement.priceAnnouncement} Euro/Stunde",
+                      style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+                    ),
+                  ),
+
+
+                  //Text(announcement.ownerPhoneNumber),
                 ],
               ),
             ),
@@ -92,8 +134,14 @@ class _AnnouncementDetailsScreenStateState
                       width: 160.0,
                       height: 80.0,
                       child: RaisedButton.icon(
+                        onPressed: () {
+                          var phoneNumber = announcement.ownerPhoneNumber;
+
+                          setState(() {
+                            _launched = Utils.makeCall("tel:$phoneNumber");
+                          });
+                        },
                         color: greenApp,
-                        onPressed: () {},
                         icon: Icon(Icons.call),
                         label: Text("Anrufen"),
                         elevation: 0.0,
@@ -104,7 +152,14 @@ class _AnnouncementDetailsScreenStateState
                       height: 80.0,
                       child: RaisedButton.icon(
                         color: greenApp,
-                        onPressed: () {},
+                        onPressed: () {
+                          var phoneNumber = announcement.ownerPhoneNumber;
+
+                          setState(() {
+                            _launched = Utils.sendSms("sms:$phoneNumber");
+                          });
+
+                        },
                         icon: Icon(Icons.email),
                         label: Text("Schreiben"),
                         elevation: 0.0,

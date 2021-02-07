@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
 class Utils {
@@ -22,6 +23,26 @@ class Utils {
       result = false;
 
     return result;
+  }
+
+  static Future<void> makeCall(String number) async{
+
+     if(await canLaunch(number)){
+          await launch(number);
+      }else{
+
+        throw 'Anruf an $number ist nicht möglich';
+    }
+  }
+
+  static Future<void> sendSms(String number) async{
+
+    if(await canLaunch(number)){
+      await launch(number);
+    }else{
+
+      throw 'Nachricht an $number kann  nicht versendet werden.';
+    }
   }
 
 

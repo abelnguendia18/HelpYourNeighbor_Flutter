@@ -114,6 +114,19 @@ class AuthenticationService {
 
     return result;
   }
+  static Future<String> getUsername(String userId) async {
+    var result;
+    try {
+      DocumentSnapshot userModel =
+      await firestore.collection('users').doc(userId).get();
+      result = userModel['userName'];
+    } catch (e) {
+      print(e);
+      result = null;
+    }
+
+    return result;
+  }
 
   static Future<void> updateFavoriteState(String documentId, String newValue) async {
     try {

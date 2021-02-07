@@ -211,6 +211,7 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
                     height: 10.0,
                   ),
                   TextFormField(
+                    maxLines: 4,
                     controller: _controllerDescription,
                     decoration: InputDecoration(
                       hintText: "Beschreibung",
