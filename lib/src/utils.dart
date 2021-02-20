@@ -2,12 +2,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:dio/dio.dart';
+import 'package:help_your_neighbor/credentials.dart';
 import 'package:http/http.dart' as http;
 
 class Utils {
-
-  static final String apiKey = "AIzaSyCzOPbyKI6mx3R9TSMowPcIES3dsPYNsQI";
-
   static setSecondTimeOfAppExecution() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setBool("secondTimeOfApplicationExecution", true);
@@ -25,26 +24,50 @@ class Utils {
     return result;
   }
 
-  static Future<void> makeCall(String number) async{
+ static Future<List> getLocationsResult(String input) async {
 
-     if(await canLaunch(number)){
-          await launch(number);
-      }else{
+    String baseURL =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
 
-        throw 'Anruf an $number ist nicht möglich';
+    //String type = 'address';
+    String type = '(cities)';
+    //values for Germany, latitude and longitude
+    String location = '51.0834196,10.423446';
+
+    String request =
+        '$baseURL?input=$input&key=$PLACES_API_KEY&type=$type&location=$location&language=de';
+
+    Response response = await Dio().get(request);
+
+    final predictions = response.data['predictions'];
+
+/*    List<String> _requestResults = [];
+
+    for (var i = 0; i < predictions.length; i++) {
+      String placeName = predictions[i]['description'];
+      _requestResults.add(placeName);
+    }
+
+    print(_requestResults);*/
+
+    return predictions;
+  }
+
+  static Future<void> makeCall(String number) async {
+    if (await canLaunch(number)) {
+      await launch(number);
+    } else {
+      throw 'Anruf an $number ist nicht möglich';
     }
   }
 
-  static Future<void> sendSms(String number) async{
-
-    if(await canLaunch(number)){
+  static Future<void> sendSms(String number) async {
+    if (await canLaunch(number)) {
       await launch(number);
-    }else{
-
+    } else {
       throw 'Nachricht an $number kann  nicht versendet werden.';
     }
   }
-
 
   static Future<bool> isSecondTimeAppExecuted() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -52,20 +75,6 @@ class Utils {
     bool secondTimeOfApplicationExecution =
         preferences.getBool("secondTimeOfApplicationExecution") ?? false;
     return secondTimeOfApplicationExecution;
-  }
-
-  static void showSnackBar(BuildContext context, String text) {
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
-  }
-
-
-  void findPlace(String placeName){
-    if(placeName.length > 1){
-
-      String autocompleteUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=$apiKey&sessiontoken=1234567890";
-
-      //var response = await RequestAssistant.getRequest(autocompleteUrl);
-    }
   }
 
 }
@@ -93,6 +102,4 @@ class MyClipper extends CustomClipper<Path> {
     //throw UnimplementedError();
     return true;
   }
-
-
 }

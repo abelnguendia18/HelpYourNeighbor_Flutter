@@ -49,10 +49,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       });
     });
 
-
     // TODO: implement initState
     super.initState();
-
   }
 
   @override
@@ -85,7 +83,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 "Mein Konto",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 22,
                     fontFamily: "Droid Sans"),
               ),
               bottom: TabBar(
@@ -94,10 +92,20 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 labelColor: Colors.white,
                 tabs: <Widget>[
                   Tab(
-                    text: "Meine Anzeigen($_totalAnnouncements)",
+                    child: Text(
+                      "Meine Anzeigen",
+                      style: TextStyle(
+                        fontSize: 17.0,
+                      ),
+                    ),
                   ),
                   Tab(
-                    text: "Mein Profil",
+                    child: Text(
+                      "Mein Profil",
+                      style: TextStyle(
+                        fontSize: 17.0,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -116,7 +124,9 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
               children: [
                 Center(
                   child: FutureBuilder(
-                    future: AuthenticationService.getAnnouncementsList(),
+                    future:
+                        AuthenticationService.getAnnouncementsListOfCurrentUser(
+                            _currentUserId),
                     builder: (_, snapshot) {
                       _totalAnnouncements = snapshot.data.length;
 
@@ -124,12 +134,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         return Center(
                           child: Text("Daten werden geladen ..."),
                         );
-                      }   else if(snapshot.data.length < 1) {
+                      } else if (snapshot.data.length < 1) {
                         return Center(
-                          child: Text("Sie haben noch keine Azeige angelegt...", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),),
+                          child: Text(
+                            "Sie haben noch keine Anzeige angelegt...",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
                         );
-                      }
-                      else {
+                      } else {
                         return ListView.builder(
                           //shrinkWrap: true,
                           itemCount: snapshot.data.length,
@@ -252,43 +267,51 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 ),
                 Center(
                   //child: Text("Mein Account"),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 100,
-                            child: Image.asset("assets/Gartenhilfe.jpg"),
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Column(
-                            children: [
-                              Text("$username"),
-                              SizedBox(
-                                height: 20.0,
+                  child: Container(
+                    padding: EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 100,
+                              child: Image.asset(
+                                "assets/account_2.png",
                               ),
-                              Text("$userPhoneNumber"),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      SizedBox(
-                        width: 200,
-                        height: 40,
-                        child: RaisedButton(
-                            color: _greenApp,
-                            textColor: Colors.black,
-                            child: Text("Ausloggen"),
-                            elevation: 2.0,
-                            onPressed: () {}),
-                      )
-                    ],
+
+                              //Icon(Icons.account_circle, color: _greenApp,)
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("$username", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),),
+                                SizedBox(
+                                  height: 20.0,
+                                ),
+                                Text("$userPhoneNumber"),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        SizedBox(
+                          width: 200,
+                          height: 40,
+                          child: RaisedButton(
+                              color: _greenApp,
+                              textColor: Colors.black,
+                              child: Text("Ausloggen"),
+                              elevation: 2.0,
+                              onPressed: () {}),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],

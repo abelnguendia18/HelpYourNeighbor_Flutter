@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:help_your_neighbor/src/screens/login_screen.dart';
 import 'package:help_your_neighbor/src/utils.dart';
 import 'package:help_your_neighbor/src/utils/firebase_services.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class SingUp extends StatelessWidget {
   @override
@@ -55,144 +56,146 @@ class _SingUpHomeState extends State<SingUpHome> {
             SizedBox(
               height: 20.0,
             ),
-            /*Container(
-              padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
-              child: Stack(
-                children: <Widget>[
-                  Center(
-                    child: Image.asset(
-                      'assets/icons/icon.png',
-                      width: 250.0,
-                      height: 150.0,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
-                    child: Text(
-                      'coco',
-                      style: TextStyle(
-                        fontSize: 50.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),*/
-            Form(
-              child: Container(
-                width: 320.0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    _buildTextField(
-                        _nameController, Icons.account_circle, 'Username'),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    _buildTextField(
-                        _numberController, Icons.phone, 'Telefonnummer'),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    _buildTextField(_emailController, Icons.mail, 'E-Mail'),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    _buildTextField(
-                        _passwordController, Icons.lock, 'Password'),
-                    SizedBox(height: 20.0),
-                    Container(
-                      height: 40.0,
-                      width: 300.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(5.0),
-                        shadowColor: Colors.green,
-                        color: _greenApp,
-                        elevation: 2.0,
-                        child: RaisedButton(
-                          color: _greenApp,
-                          onPressed: () async {
-                            var user = await (AuthenticationService.singUp(
-                                userName:
-                                    _nameController.text.toString().trim(),
-                                email: _emailController.text.toString().trim(),
-                                password: _passwordController.text.toString(),
-                                userTelNumber:
-                                    _numberController.text.toString().trim()));
-                            if (user != null) {
-                              final snackBar = SnackBar(
-                                duration: Duration(seconds: 10),
-                                content: Text("Konto erfolgreich erstellt."),
-                                backgroundColor: _greenApp,
-                                action: SnackBarAction(
-                                  label: 'Login',
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Login()),
-                                    );
-                                  },
-                                ),
-                              );
-                              _globalKey.currentState.showSnackBar(snackBar);
 
-                           /*   Navigator.push(
+            Container(
+              padding: EdgeInsets.only(top: 30.0),
+              child:Form(
+                child: Container(
+                  width: 320.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      _buildTextField(
+                          _nameController, Icons.account_circle, 'Username', false, false),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      _buildTextField(
+                          _numberController, Icons.phone, 'Telefonnummer', false, true),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      _buildTextField(_emailController, Icons.mail, 'E-Mail', false, false),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      _buildTextField(
+                          _passwordController, Icons.lock, 'Password', true, false),
+                      SizedBox(height: 20.0),
+                      Container(
+                        height: 40.0,
+                        width: 300.0,
+                        child: Material(
+                          borderRadius: BorderRadius.circular(5.0),
+                          shadowColor: Colors.green,
+                          color: _greenApp,
+                          elevation: 2.0,
+                          child: RaisedButton(
+                            color: _greenApp,
+                            onPressed: () async {
+                              var internetStatus = await Utils.isInternetConnectionAvailable();
+
+                              if(internetStatus){
+                                var user = await (AuthenticationService.singUp(
+                                    userName:
+                                    _nameController.text.toString().trim(),
+                                    email: _emailController.text.toString().trim(),
+                                    password: _passwordController.text.toString(),
+                                    userTelNumber:
+                                    _numberController.text.toString().trim()));
+                                if (user != null) {
+                                  final snackBar = SnackBar(
+                                    duration: Duration(seconds: 10),
+                                    content: Text("Konto erfolgreich erstellt."),
+                                    backgroundColor: _greenApp,
+                                    action: SnackBarAction(
+                                      label: 'Login',
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Login()),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                  _globalKey.currentState.showSnackBar(snackBar);
+
+                                  /*   Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Login()),
                               );*/
 
-                              print("User ID: ${user.uid}");
-                            }
-                          },
-                          child: Center(
-                            child: Text('REGISTRIEREN'),
+                                  print("User ID: ${user.uid}");
+                                }
+
+                              }else{
+
+                                AwesomeDialog(
+                                    context: context,
+                                    dialogType: DialogType.ERROR,
+                                    animType: AnimType.TOPSLIDE,
+                                    headerAnimationLoop: false,
+                                    useRootNavigator: true,
+                                    title: 'Fehler',
+                                    autoHide: Duration(seconds: 3),
+                                    desc:
+                                    'Überprüfen Sie bitte Ihre Internetverbindung!',
+                                    btnOkIcon: Icons.cancel,
+                                    btnOkColor: Colors.red)
+                                  ..show();
+                              }
+
+                            },
+                            child: Center(
+                              child: Text('REGISTRIEREN'),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              'Haben Sie schon ein Konto?',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Login()),
-                                );
-                              },
-                              child: Text(
-                                ' Sich einloggen',
-                                style: TextStyle(
-                                    color: _greenApp,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15.0),
-                              ),
-                            ),
-                          ),
-                        ],
+                      SizedBox(
+                        height: 20.0,
                       ),
-                    ),
-                  ],
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                'Haben Sie schon ein Konto?',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Login()),
+                                  );
+                                },
+                                child: Text(
+                                  ' Sich einloggen',
+                                  style: TextStyle(
+                                      color: _greenApp,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
+
           ],
         ),
       ),
@@ -226,7 +229,7 @@ class _SingUpHomeState extends State<SingUpHome> {
   }*/
 
   Widget _buildTextField(
-      TextEditingController controller, IconData icon, String labelText) {
+      TextEditingController controller, IconData icon, String labelText, bool isPasswordField, bool isPhoneNumberField) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
@@ -235,7 +238,8 @@ class _SingUpHomeState extends State<SingUpHome> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: TextFormField(
-        keyboardType: TextInputType.emailAddress,
+        obscureText: isPasswordField ? true : false,
+        keyboardType: isPhoneNumberField ? TextInputType.number : TextInputType.emailAddress,
         controller: controller,
         style: TextStyle(color: Colors.black),
         decoration: InputDecoration(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:help_your_neighbor/src/models/slider_model.dart';
+import 'package:help_your_neighbor/src/screens/sing_up_screen.dart';
 import 'package:help_your_neighbor/src/screens/widgets/sliders.dart';
 
 
@@ -22,7 +23,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<SliderModel> slides = new List<SliderModel>();
   int slideIndex = 0;
-  Color greenApp = const Color.fromRGBO(137, 202, 137, 1.0);
+  //Color greenApp = const Color.fromRGBO(137, 202, 137, 1.0);
+  final Color greenApp =  Color(0xff89ca89);
 
   PageController controller;
 
@@ -32,7 +34,8 @@ class _HomeState extends State<Home> {
       height: isCurrentPage ? 10.0 : 6.0,
       width: isCurrentPage ? 10.0 : 6.0,
       decoration: BoxDecoration(
-        color: isCurrentPage ? Colors.grey : Colors.grey[300],
+        color: isCurrentPage ? greenApp : Colors.grey[300],
+        //color: isCurrentPage ? Colors.grey : Colors.grey[300],
         borderRadius: BorderRadius.circular(12),
       ),
     );
@@ -47,28 +50,6 @@ class _HomeState extends State<Home> {
   }
 
   @override
- /* Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView.builder(
-        onPageChanged: (val){
-          currentIndex = val;
-        },
-        itemCount: slides.length,
-        itemBuilder: (context, index){
-          return SliderTile(
-            imagePath: slides[index].imagePath,
-            sliderTitle: slides[index].sliderTitle,
-            sliderDescription: slides[index].sliderDescription,
-          );
-        },
-      ),
-      bottomSheet: currentIndex != slides.length - 1 ? Container(
-
-      ) : Container(
-
-      ),
-    );
-  }*/
 
   Widget build(BuildContext context) {
     return Container(
@@ -112,12 +93,12 @@ class _HomeState extends State<Home> {
             children: <Widget>[
               FlatButton(
                 onPressed: (){
-                  controller.animateToPage(2, duration: Duration(milliseconds: 400), curve: Curves.linear);
+                  controller.animateToPage(slideIndex - 1, duration: Duration(milliseconds: 400), curve: Curves.linear);
                 },
                 splashColor: Colors.blue[50],
                 child: Text(
-                  "SKIP",
-                  style: TextStyle(color: Color(0xFF0074E4), fontWeight: FontWeight.w600),
+                  "Zurück",
+                  style: TextStyle(color: greenApp, fontWeight: FontWeight.w600, fontSize: 16.0),
                 ),
               ),
               Container(
@@ -133,8 +114,8 @@ class _HomeState extends State<Home> {
                 },
                 splashColor: Colors.blue[50],
                 child: Text(
-                  "NEXT",
-                  style: TextStyle(color: Color(0xFF0074E4), fontWeight: FontWeight.w600),
+                  "Weiter",
+                  style: TextStyle(color: greenApp, fontWeight: FontWeight.w600, fontSize: 16.0),
                 ),
               ),
             ],
@@ -142,6 +123,7 @@ class _HomeState extends State<Home> {
         ): InkWell(
           onTap: (){
             print("Get Started Now");
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SingUp()));
           },
           child: Container(
             height: 60,
@@ -149,7 +131,7 @@ class _HomeState extends State<Home> {
             color: greenApp,
             alignment: Alignment.center,
             child: Text(
-              "GET STARTED NOW",
+              "Jetzt Starten",
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
             ),
           ),

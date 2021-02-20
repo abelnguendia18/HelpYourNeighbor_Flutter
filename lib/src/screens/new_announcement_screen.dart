@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:help_your_neighbor/src/models/announcement_model.dart';
 import 'package:help_your_neighbor/src/screens/home_screen.dart';
+import 'package:help_your_neighbor/src/screens/my_account_screen.dart';
+import 'package:help_your_neighbor/src/utils.dart';
 import 'package:help_your_neighbor/src/utils/firebase_services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,6 +13,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
+
+import 'package:help_your_neighbor/src/models/place.dart';
+
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class NewAnnouncementScreen extends StatefulWidget {
   @override
@@ -21,6 +28,7 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
   final Color _greenApp = Color(0xff89ca89);
   final Color _grey = Color(0xffdcdcdc);
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final _globalKey = GlobalKey<ScaffoldState>();
   String _userId;
   var imageUrl = null;
   var _groupValue;
@@ -28,7 +36,6 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
   TextEditingController _controllerPrice = TextEditingController();
   TextEditingController _controllerOwnerAddress = TextEditingController();
   TextEditingController _controllerDescription = TextEditingController();
-  final String apiKey = "AIzaSyCzOPbyKI6mx3R9TSMowPcIES3dsPYNsQI";
   List _listOfCategories = [
     "Einkaufshilfe",
     "Putzhilfe",
@@ -60,10 +67,13 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
         });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Scaffold(
+        key: _globalKey,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: Builder(
@@ -74,10 +84,8 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
                   size: 30,
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomeScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
                   //Scaffold.of(context).openDrawer();
                 },
               );
@@ -97,8 +105,9 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
         body: SingleChildScrollView(
           child: Form(
             child: Container(
+              padding: EdgeInsets.all(20.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 20.0),
@@ -189,36 +198,74 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
                   TextFormField(
                     controller: _controllerPrice,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(hintText: "Preis(Euro/Stunde)"),
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10.0),
+                        hintText: "Preis(Euro/Stunde)"),
                   ),
                   SizedBox(
                     height: 10.0,
                   ),
-                  TextFormField(
-                    onTap: () async {
-                      Prediction p = await PlacesAutocomplete.show(
-                          context: context,
-                          apiKey: "AIzaSyCzOPbyKI6mx3R9TSMowPcIES3dsPYNsQI",
-                          language: "pt",
-                          components: [Component(Component.country, "mz")]);
-                    },
+                  /*AutoCompleteTextField(
+                    suggestionsAmount: 5,
                     controller: _controllerOwnerAddress,
+                    textChanged: (value) {
+                      getLocationsResult(value);
+                    },
+                    suggestions: _suggestionss,
                     decoration: InputDecoration(
                       hintText: "Wohnort",
                     ),
+                    itemBuilder: (context, item) {
+                      return Container(
+                        padding: EdgeInsets.all(20.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(item),
+                          ],
+                        ),
+                      );
+                    },
+                  ),*/
+                  Container(
+                    //padding: EdgeInsets.all(10.0),
+                    child: TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                        controller: _controllerOwnerAddress,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(10.0),
+                            hintText: "Wohnort",
+                          
+                        ),
+                      ) ,
+                      suggestionsCallback: (input)async{
+                        return await Utils.getLocationsResult(input);
+                      },
+
+                      itemBuilder: (context, suggestion){
+                        return ListTile(
+                          leading: Icon(Icons.location_on_outlined, color: _greenApp,),
+                          title: Text(suggestion['description'], style: TextStyle(color: Colors.black),),
+                        );
+                      },
+                      onSuggestionSelected: (suggestion){
+                                    _controllerOwnerAddress.text = suggestion['description'];
+                      },
+                    ),
                   ),
+                  
                   SizedBox(
                     height: 10.0,
                   ),
                   TextFormField(
-                    maxLines: 4,
+                    maxLines: 3,
                     controller: _controllerDescription,
                     decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(10.0),
                       hintText: "Beschreibung",
                     ),
                   ),
                   SizedBox(
-                    height: 70.0,
+                    height: 30.0,
                   ),
                   SizedBox(
                     width: 250,
@@ -252,27 +299,26 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
                           String result =
                               await AuthenticationService.saveAnnouncement(
                                   announcement);
+                          if(result == "ok"){
+                            final snackBar = SnackBar(
+                              duration: Duration(seconds: 10),
+                              content: Text("Anzeige erfolgreich erstellt."),
+                              backgroundColor: _greenApp,
+                              action: SnackBarAction(
+                                label: 'Clicken Sie hierhin...',
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyAccountScreen()),
+                                  );
+                                },
+                              ),
+                            );
+                            _globalKey.currentState.showSnackBar(snackBar);
+                          }
 
                           print("Result of insertion: $result");
-                          /*if (result == "OK") {
-                            showFlash(
-                                context: context,
-                                duration: Duration(seconds: 4),
-                                builder: (context, controller) {
-                                  return Flash.bar(
-                                      controller: controller,
-                                      position: FlashPosition.top,
-                                      enableDrag: true,
-                                      horizontalDismissDirection:
-                                          HorizontalDismissDirection.startToEnd,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0)),
-                                      child: FlashBar(
-                                        message: Text(
-                                            "Ihre Anzeige wurde erfolgreich erstellt."),
-                                      ));
-                                });
-                          }*/
                         }),
                   ),
                 ],

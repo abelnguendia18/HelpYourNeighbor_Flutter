@@ -36,9 +36,9 @@ class AuthenticationService {
     };
     try {
       await announcementCollection.add(data);
-      result = "Ok";
+      result = "ok";
     } catch (e) {
-      result = "Ko";
+      result = "ko";
       print(e);
     }
 
@@ -145,8 +145,15 @@ class AuthenticationService {
     return query.docs;
   }
 
+  static Future getAnnouncementsListOfCurrentUser(String userId) async {
+    QuerySnapshot query = await announcementCollection.where("ownerId", isEqualTo: "$userId" ).get();
+
+    return query.docs;
+  }
+
   static Future getFavoritesList() async {
-    QuerySnapshot query = await announcementCollection.where("isFavorite", isEqualTo: "ja" ).get();
+    QuerySnapshot query = await announcementCollection.where("isFavorite", isEqualTo: "ja").get();
+
 
     return query.docs;
   }
