@@ -72,11 +72,55 @@ class _LoginHomeState extends State<LoginHome> {
                   children: <Widget>[
                     _buildTextField(
                         _emailController, Icons.mail, 'E-Mail', false),
+
+                    /*Container(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'E-Mail',
+                      prefix: Icon(
+                        FontAwesomeIcons.envelope,
+                        size: 20,
+                        color: greenApp,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: greenApp,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: greenApp,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),*/
                     SizedBox(
                       height: 20.0,
                     ),
                     _buildTextField(
                         _passwordController, Icons.lock, 'Password', true),
+                    /*Container(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(Icons.visibility),
+                      labelText: 'Passwort',
+                      labelStyle: TextStyle(
+                        color: greenApp,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: greenApp
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: greenApp,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),*/
                     SizedBox(height: 30.0),
                     Container(
                       height: 40.0,
@@ -89,31 +133,16 @@ class _LoginHomeState extends State<LoginHome> {
                         child: RaisedButton(
                           color: _greenApp,
                           onPressed: () async {
-                            var internetStatus =
+                            var isInternetAvailable =
                                 await Utils.isInternetConnectionAvailable();
-                            if (internetStatus) {
+
+                            if (isInternetAvailable) {
                               var result = await AuthenticationService.singIn(
                                   email:
                                       _emailController.text.toString().trim(),
                                   password:
                                       _passwordController.text.toString());
                               if (result) {
-                                AwesomeDialog(
-                                    context: context,
-                                    dialogType: DialogType.SUCCES,
-                                    animType: AnimType.TOPSLIDE,
-                                    headerAnimationLoop: false,
-                                    useRootNavigator: true,
-                                    autoHide: Duration(seconds: 5),
-                                    title: 'Erfolg!',
-                                    //desc: 'User erfolgreich !',
-                                    btnOkIcon: Icons.cancel,
-                                    btnOkColor: Colors.red)
-                                  ..show();
-
-                                await new Future.delayed(
-                                    const Duration(seconds: 4));
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -136,6 +165,16 @@ class _LoginHomeState extends State<LoginHome> {
                                   btnOkColor: Colors.red)
                                 ..show();
                             }
+/*                          final user = await AuthenticationService.singIn(
+                              email: _emailController.text.toString().trim(),
+                              password: _passwordController.text.toString());
+                          if (user != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomeScreen()),
+                            );
+                            print("OK Partenaire");
+                          }*/
                           },
                           child: Center(
                             child: Text('LOGIN'),
@@ -222,4 +261,37 @@ class _LoginHomeState extends State<LoginHome> {
       ),
     );
   }
+/*  Widget _buildTextField(IconData icon, String labelText) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: _greenApp),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: TextFormField(
+        autovalidate: true,
+        validator: (String value){
+          if(value.isEmpty){
+            return labelText+" kann nicht leer sein";
+          }else if(value.length < 6){
+            return labelText+" soll mindestens 6 Zeichen haben";
+          }
+          return null;
+        },
+        style: TextStyle(color: Colors.black),
+        decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+            labelText: labelText,
+            labelStyle: TextStyle(color: _greenApp),
+            icon: Icon(
+              icon,
+              color: _greenApp,
+            ),
+            // prefix: Icon(icon),
+            border: InputBorder.none),
+      ),
+    );
+  }*/
+
 }

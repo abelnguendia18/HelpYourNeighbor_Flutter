@@ -10,7 +10,6 @@ import 'package:help_your_neighbor/src/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '';
 
 final Color greenApp = Color(0xff89ca89);
 
@@ -21,6 +20,7 @@ void main() async {
     statusBarColor: greenApp,
     statusBarBrightness: Brightness.light,
   ));
+
 // I need to do this in order to access Firebase's services
   await Firebase.initializeApp();
 
@@ -28,7 +28,7 @@ void main() async {
   Utils.setSecondTimeOfAppExecution();
   //It means the App is launched for the first time
   if (!isSecondTime) {
-    runApp(MyApp());
+    runApp(MyApp()); // Onboarding is launched
   } else {
     runApp(Login());
   }

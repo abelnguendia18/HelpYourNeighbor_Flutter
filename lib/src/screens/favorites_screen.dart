@@ -52,10 +52,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {
-                    print("Tandannnnn: ${snapshot.data[index].id}");
-                  },
-
                   // We don't need to show here the announcements created by the current User.
                   child: _currentUserId != snapshot.data[index]['ownerId']
                       ? Card(
@@ -134,12 +130,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                       ),
                                     ),
 
-                                    /* Icon(
-                          Icons.share_outlined,
-                          color: _greenApp,
-                          size: 30,
-                        ),*/
-
                                     Container(
                                       padding: EdgeInsets.only(left: 150),
                                       child: IconButton(
@@ -155,25 +145,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                                 Icons.favorite_border_outlined,
                                                 color: _greenApp),
                                       ),
-
-/*                                    onPressed: () async {
-                                      if(snapshot.data[index]['isFavorite'] == "ja") {
-                                        await AuthenticationService
-                                            .updateFavoriteState(
-                                            snapshot.data[index].id
-                                                .toString(), "nein");
-                                      }else if(snapshot.data[index]['isFavorite'] == "nein"){
-
-                                        await AuthenticationService
-                                            .updateFavoriteState(
-                                            snapshot.data[index].id
-                                                .toString(), "ja");
-                                      }
-                                      setState(() {
-                                        bigRslt = AuthenticationService.getAnnouncementsList();
-                                      });
-
-                                    },*/
                                     ),
                                     //Icon(EvaIcons.heartOutline, color: _greenApp, size: 30, )
                                   ],
