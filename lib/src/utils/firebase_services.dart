@@ -81,6 +81,11 @@ class AuthenticationService {
     }
   }
 
+  static Future<void> logout()async{
+
+    await firebaseAuth.signOut();
+  }
+
 // This method returns the download url, as soon as the upload is okay
   static Future<String> uploadImage(String userId) async {
     final _picker = ImagePicker();

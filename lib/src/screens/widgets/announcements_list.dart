@@ -37,12 +37,17 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
             return Center(
               child: Text("Daten werden geladen ..."),
             );
-          }
-          else if(snapshot.data.length < 1) {
+          } else if (snapshot.data.length < 1) {
             return Center(
-              child: Text("Es sind keine Anzeigen verfügbar...", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),),
+              child: Text(
+                "Es sind keine Anzeigen verfügbar...",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+              ),
             );
-          }else{
+          } else {
             return Expanded(
                 child: ListView.builder(
               //shrinkWrap: true,
@@ -151,50 +156,47 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                                       ),
                                     ),
 
-                                   Container(
-                                     padding: EdgeInsets.only(left: 150),
-
+                                    Container(
+                                        padding: EdgeInsets.only(left: 150),
                                         child: IconButton(
-                                      icon: snapshot.data[index]
-                                                  ['isFavorite'] ==
-                                              "ja"
-                                          ? Icon(
-                                              Icons.favorite,
-                                              color: Colors.red,
-                                              size: 30,
-                                            )
-                                          : Icon(Icons.favorite_border_outlined,
-                                              color: _greenApp, size: 30,),
-                                      onPressed: () async {
-                                        if (snapshot.data[index]
-                                                ['isFavorite'] ==
-                                            "ja") {
-                                          await AuthenticationService
-                                              .updateFavoriteState(
-                                                  snapshot.data[index].id
-                                                      .toString(),
-                                                  "nein");
-                                        } else if (snapshot.data[index]
-                                                ['isFavorite'] ==
-                                            "nein") {
-                                          await AuthenticationService
-                                              .updateFavoriteState(
-                                                  snapshot.data[index].id
-                                                      .toString(),
-                                                  "ja");
-                                        }
-                                        setState(() {
-                                          bigRslt = AuthenticationService
-                                              .getAnnouncementsList();
-                                        });
-                                      },
-                                    )),
-
-                                    /* Icon(
-                          Icons.share_outlined,
-                          color: _greenApp,
-                          size: 30,
-                        ),*/
+                                          icon: snapshot.data[index]
+                                                      ['isFavorite'] ==
+                                                  "ja"
+                                              ? Icon(
+                                                  Icons.favorite,
+                                                  color: Colors.red,
+                                                  size: 30,
+                                                )
+                                              : Icon(
+                                                  Icons
+                                                      .favorite_border_outlined,
+                                                  color: _greenApp,
+                                                  size: 30,
+                                                ),
+                                          onPressed: () async {
+                                            if (snapshot.data[index]
+                                                    ['isFavorite'] ==
+                                                "ja") {
+                                              await AuthenticationService
+                                                  .updateFavoriteState(
+                                                      snapshot.data[index].id
+                                                          .toString(),
+                                                      "nein");
+                                            } else if (snapshot.data[index]
+                                                    ['isFavorite'] ==
+                                                "nein") {
+                                              await AuthenticationService
+                                                  .updateFavoriteState(
+                                                      snapshot.data[index].id
+                                                          .toString(),
+                                                      "ja");
+                                            }
+                                            setState(() {
+                                              bigRslt = AuthenticationService
+                                                  .getAnnouncementsList();
+                                            });
+                                          },
+                                        )),
 
                                     //Icon(EvaIcons.heartOutline, color: _greenApp, size: 30, )
                                   ],
@@ -203,9 +205,7 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                             ],
                           ),
                         )
-                      : Container(
-
-                  ),
+                      : Container(),
                 );
               },
             ));
@@ -215,14 +215,5 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
     );
   }
 
-  Widget isFavorite(bool value) {
-    if (value == true) {
-      return Icon(
-        Icons.favorite,
-        color: Colors.red,
-      );
-    } else {
-      return Icon(Icons.favorite, color: _greenApp);
-    }
-  }
+
 }

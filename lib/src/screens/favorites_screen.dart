@@ -51,7 +51,34 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               //shrinkWrap: true,
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
-                return GestureDetector(
+                return Dismissible(
+                  key: Key('${snapshot.data[index]}'),
+                  background: Container(
+                    padding: EdgeInsets.only(left: 20.0),
+                    color: _greenApp,
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.call),
+                        SizedBox(
+                          width: 50.0,
+                        ),
+                        Icon(Icons.email),
+                      ],
+                    ),
+                  ),
+                  secondaryBackground: Container(
+                    color: Colors.red,
+                    child: Icon(Icons.delete),
+                  ),
+                  onDismissed: (direction) async {
+                    if (direction == DismissDirection.endToStart) {
+                      await AuthenticationService.updateFavoriteState(
+                          snapshot.data[index].id.toString(), "nein");
+                      setState(() {
+                        bigRslt = AuthenticationService.getFavoritesList();
+                      });
+                    }
+                  },
                   // We don't need to show here the announcements created by the current User.
                   child: _currentUserId != snapshot.data[index]['ownerId']
                       ? Card(

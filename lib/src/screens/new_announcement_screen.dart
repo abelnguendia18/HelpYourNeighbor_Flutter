@@ -205,27 +205,6 @@ class _NewAnnouncementScreenState extends State<NewAnnouncementScreen> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  /*AutoCompleteTextField(
-                    suggestionsAmount: 5,
-                    controller: _controllerOwnerAddress,
-                    textChanged: (value) {
-                      getLocationsResult(value);
-                    },
-                    suggestions: _suggestionss,
-                    decoration: InputDecoration(
-                      hintText: "Wohnort",
-                    ),
-                    itemBuilder: (context, item) {
-                      return Container(
-                        padding: EdgeInsets.all(20.0),
-                        child: Row(
-                          children: <Widget>[
-                            Text(item),
-                          ],
-                        ),
-                      );
-                    },
-                  ),*/
                   Container(
                     //padding: EdgeInsets.all(10.0),
                     child: TypeAheadField(

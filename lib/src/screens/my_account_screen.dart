@@ -3,9 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:help_your_neighbor/src/screens/home_screen.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:help_your_neighbor/src/screens/login_screen.dart';
+import 'package:help_your_neighbor/src/utils.dart';
 import 'package:help_your_neighbor/src/utils/firebase_services.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class MyAccountScreen extends StatefulWidget {
   @override
@@ -109,16 +112,6 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                   ),
                 ],
               ),
-              /*title: TabBar(
-              tabs: <Widget>[
-                Tab(
-                  child: Text("Meine Anzeigen"),
-                ),
-                Tab(
-                  child: Text("Mein Profil"),
-                ),
-              ],
-            ),*/
             ),
             body: TabBarView(
               children: [
@@ -217,43 +210,6 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                               ],
                                             ),
                                           ),
-                                          /*Container(
-                                            //Group 2: location, price
-                                            child: Row(
-                                              children: <Widget>[
-                                                Icon(
-                                                  EvaIcons.pinOutline,
-                                                  color: _greenApp,
-                                                  size: 25,
-                                                ),
-                                                SizedBox(
-                                                  width: 3,
-                                                ),
-                                                Text(
-                                                  snapshot.data[index]
-                                                      ['ownerAddress'],
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontFamily: "Roboto"),
-                                                ),
-
-
-                                                SizedBox(
-                                                  width: 250,
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(
-                                                    EvaIcons.heartOutline,
-                                                    color: _greenApp,
-                                                    size: 30,
-                                                  ),
-                                                  onPressed: () {},
-                                                ),
-                                                //Icon(EvaIcons.heartOutline, color: _greenApp, size: 30, )
-                                              ],
-                                            ),
-                                          )*/
                                         ],
                                       ),
                                     )
@@ -288,7 +244,12 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("$username", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),),
+                                Text(
+                                  "$username",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17.0),
+                                ),
                                 SizedBox(
                                   height: 20.0,
                                 ),
@@ -308,7 +269,54 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               textColor: Colors.black,
                               child: Text("Ausloggen"),
                               elevation: 2.0,
-                              onPressed: () {}),
+                              onPressed: () {
+                                /* AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.QUESTION,
+                                  animType: AnimType.TOPSLIDE,
+                                  headerAnimationLoop: false,
+                                  useRootNavigator: true,
+                                  //title: 'Information',
+                                  autoHide: Duration(seconds: 10),
+                                  desc:
+                                      'Wollen Sie sich wirklich ausloggen?',
+                                  btnOkIcon: Icons.check,
+                                  btnOkColor: _greenApp,
+                                  btnCancelOnPress: (){},
+                                  btnOkOnPress: (){},
+                                )..show();*/
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Information'),
+                                        content: Text(
+                                            'Wollen Sie sich wirklich ausloggen und die App verlassen?'),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text('Nein'),
+                                          ),
+                                          FlatButton(
+                                            onPressed: () async {
+                                              await AuthenticationService
+                                                  .logout();
+                                              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                                  /*            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Login()),
+                                              );*/
+                                            },
+                                            child: Text('Ja'),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              }),
                         )
                       ],
                     ),
@@ -319,61 +327,5 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           )),
       onWillPop: _onBackPressed,
     );
-    /* DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            leading: Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  icon:  Icon(Icons.arrow_back_outlined, size: 30,),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
-                    //Scaffold.of(context).openDrawer();
-                    },
-
-                );
-              },
-            ),
-            backgroundColor: _greenApp,
-            title: Text(
-              "Mein Konto",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, fontFamily: "Droid Sans"),
-            ),
-            bottom: TabBar(
-              unselectedLabelColor: Colors.white,
-              indicatorColor: Colors.white,
-              labelColor: Colors.white,
-              tabs: <Widget>[
-                Tab(text: "Meine Anzeigen", icon: Icon(Icons.message)),
-                Tab(text: "Mein Profil", icon: Icon(Icons.account_circle),),
-              ],
-            ),
-            */ /*title: TabBar(
-              tabs: <Widget>[
-                Tab(
-                  child: Text("Meine Anzeigen"),
-                ),
-                Tab(
-                  child: Text("Mein Profil"),
-                ),
-              ],
-            ),*/ /*
-          ),
-          body: TabBarView(
-            children: [
-              Center(
-                child: Text("Meine Anzeigen"),
-
-              ),
-              Center(
-                child: Text("Mein Account"),
-              ),
-            ],
-          ),
-        )
-    );*/
   }
 }
