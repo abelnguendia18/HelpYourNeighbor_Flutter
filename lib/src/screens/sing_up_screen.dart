@@ -56,30 +56,6 @@ class _SingUpHomeState extends State<SingUpHome> {
             SizedBox(
               height: 20.0,
             ),
-            /*Container(
-              padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
-              child: Stack(
-                children: <Widget>[
-                  Center(
-                    child: Image.asset(
-                      'assets/icons/icon.png',
-                      width: 250.0,
-                      height: 150.0,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
-                    child: Text(
-                      'coco',
-                      style: TextStyle(
-                        fontSize: 50.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),*/
             Form(
               child: Container(
                 width: 320.0,
@@ -118,42 +94,72 @@ class _SingUpHomeState extends State<SingUpHome> {
                                 await Utils.isInternetConnectionAvailable();
 
                             if (isInternetAvailable) {
-                              var user = await (AuthenticationService.singUp(
-                                  userName:
-                                      _nameController.text.toString().trim(),
-                                  email:
-                                      _emailController.text.toString().trim(),
-                                  password: _passwordController.text.toString(),
-                                  userTelNumber: _numberController.text
-                                      .toString()
-                                      .trim()));
-                              if (user != null) {
-                                final snackBar = SnackBar(
-                                  duration: Duration(seconds: 10),
-                                  content: Text("Konto erfolgreich erstellt."),
-                                  backgroundColor: _greenApp,
-                                  action: SnackBarAction(
-                                    label: 'Login',
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Login()),
-                                      );
-                                    },
-                                  ),
-                                );
-                                _globalKey.currentState.showSnackBar(snackBar);
+                              if ((_nameController.text.isNotEmpty) &&
+                                  (_numberController.text.isNotEmpty) &&
+                                  (_passwordController.text.isNotEmpty) &&
+                                  (_emailController.text.isNotEmpty)) {
+                                var user = await (AuthenticationService.singUp(
+                                    userName:
+                                        _nameController.text.toString().trim(),
+                                    email:
+                                        _emailController.text.toString().trim(),
+                                    password:
+                                        _passwordController.text.toString(),
+                                    userTelNumber: _numberController.text
+                                        .toString()
+                                        .trim()));
+                                if (user != null) {
+                                  final snackBar = SnackBar(
+                                    duration: Duration(seconds: 10),
+                                    content:
+                                        Text("Konto erfolgreich erstellt."),
+                                    backgroundColor: _greenApp,
+                                    action: SnackBarAction(
+                                      label: 'Login',
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Login()),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                  _globalKey.currentState
+                                      .showSnackBar(snackBar);
 
-                                /*   Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Login()),
-                              );*/
-
-                                print("User ID: ${user.uid}");
+                                  print("User ID: ${user.uid}");
+                                } else {
+                                  AwesomeDialog(
+                                    context: context,
+                                    dialogType: DialogType.ERROR,
+                                    animType: AnimType.TOPSLIDE,
+                                    headerAnimationLoop: false,
+                                    useRootNavigator: true,
+                                    title: 'Fehler',
+                                    autoHide: Duration(seconds: 3),
+                                    desc:
+                                        'Überprüfen Sie bitte Ihre Eingabedaten!',
+                                    btnOkIcon: Icons.cancel,
+                                    btnOkColor: Colors.red,
+                                  )..show();
+                                }
+                              } else {
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.WARNING,
+                                  animType: AnimType.TOPSLIDE,
+                                  headerAnimationLoop: false,
+                                  useRootNavigator: true,
+                                  title: 'Information',
+                                  autoHide: Duration(seconds: 3),
+                                  desc:
+                                      'Alle Formularfelder müssen ausgefüllt werden!',
+                                  btnOkIcon: Icons.cancel,
+                                  btnOkColor: Colors.red,
+                                )..show();
                               }
-                            }else{
+                            } else {
                               AwesomeDialog(
                                   context: context,
                                   dialogType: DialogType.ERROR,
@@ -163,7 +169,7 @@ class _SingUpHomeState extends State<SingUpHome> {
                                   title: 'Fehler',
                                   autoHide: Duration(seconds: 3),
                                   desc:
-                                  'Überprüfen Sie bitte Ihre Internetverbindung!',
+                                      'Überprüfen Sie bitte Ihre Internetverbindung!',
                                   btnOkIcon: Icons.cancel,
                                   btnOkColor: Colors.red)
                                 ..show();
@@ -220,32 +226,6 @@ class _SingUpHomeState extends State<SingUpHome> {
       ),
     );
   }
-
-/*  Widget _buildTextField(
-      TextEditingController controller, IconData icon, String labelText) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: _greenApp),
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: TextField(
-        controller: controller,
-        style: TextStyle(color: Colors.black),
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 10),
-            labelText: labelText,
-            labelStyle: TextStyle(color: _greenApp),
-            icon: Icon(
-              icon,
-              color: _greenApp,
-            ),
-            // prefix: Icon(icon),
-            border: InputBorder.none),
-      ),
-    );
-  }*/
 
   Widget _buildTextField(
       TextEditingController controller, IconData icon, String labelText) {

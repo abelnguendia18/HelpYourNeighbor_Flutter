@@ -97,7 +97,7 @@ class _LoginHomeState extends State<LoginHome> {
 
                             if (isInternetAvailable) {
 
-                              if(!(_emailController.text.isEmpty) && !(_passwordController.text.isEmpty) ){
+                              if((_emailController.text.isNotEmpty) && (_passwordController.text.isNotEmpty) ){
                                 var result = await AuthenticationService.singIn(
                                     email:
                                     _emailController.text.toString().trim(),

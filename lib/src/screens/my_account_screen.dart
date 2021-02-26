@@ -270,21 +270,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               child: Text("Ausloggen"),
                               elevation: 2.0,
                               onPressed: () {
-                                /* AwesomeDialog(
-                                  context: context,
-                                  dialogType: DialogType.QUESTION,
-                                  animType: AnimType.TOPSLIDE,
-                                  headerAnimationLoop: false,
-                                  useRootNavigator: true,
-                                  //title: 'Information',
-                                  autoHide: Duration(seconds: 10),
-                                  desc:
-                                      'Wollen Sie sich wirklich ausloggen?',
-                                  btnOkIcon: Icons.check,
-                                  btnOkColor: _greenApp,
-                                  btnCancelOnPress: (){},
-                                  btnOkOnPress: (){},
-                                )..show();*/
+
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
