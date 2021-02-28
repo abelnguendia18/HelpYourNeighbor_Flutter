@@ -60,6 +60,7 @@ class _HomeScreenStatefulState extends State<HomeScreenStateful> {
         children: <Widget>[
           _page == 0
               ? Container(
+                  padding: EdgeInsets.only(top: 15),
                   //Homescreen
 
                   child: Column(
@@ -101,7 +102,7 @@ class _HomeScreenStatefulState extends State<HomeScreenStateful> {
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 5, right: 5, top: 40),
+                        padding: EdgeInsets.only(left: 5, right: 5, top: 50),
                         child: Row(
                           children: <Widget>[
                             Text(
@@ -129,10 +130,8 @@ class _HomeScreenStatefulState extends State<HomeScreenStateful> {
                   ),
                 )
               : Container(),
-
         ],
       ),
-
       bottomNavigationBar: CurvedNavigationBar(
         color: _greenApp,
         index: 0,

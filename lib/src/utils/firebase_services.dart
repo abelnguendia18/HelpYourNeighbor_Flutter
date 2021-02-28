@@ -81,8 +81,7 @@ class AuthenticationService {
     }
   }
 
-  static Future<void> logout()async{
-
+  static Future<void> logout() async {
     await firebaseAuth.signOut();
   }
 
@@ -119,11 +118,12 @@ class AuthenticationService {
 
     return result;
   }
+
   static Future<String> getUsername(String userId) async {
     var result;
     try {
       DocumentSnapshot userModel =
-      await firestore.collection('users').doc(userId).get();
+          await firestore.collection('users').doc(userId).get();
       result = userModel['userName'];
     } catch (e) {
       print(e);
@@ -133,15 +133,16 @@ class AuthenticationService {
     return result;
   }
 
-  static Future<void> updateFavoriteState(String documentId, String newValue) async {
+  static Future<void> updateFavoriteState(
+      String documentId, String newValue) async {
     try {
-
-          await firestore.collection('announcements').doc(documentId).update({"isFavorite" : newValue});
-
+      await firestore
+          .collection('announcements')
+          .doc(documentId)
+          .update({"isFavorite": newValue});
     } catch (e) {
       print(e);
     }
-
   }
 
   static Future getAnnouncementsList() async {
@@ -151,14 +152,16 @@ class AuthenticationService {
   }
 
   static Future getAnnouncementsListOfCurrentUser(String userId) async {
-    QuerySnapshot query = await announcementCollection.where("ownerId", isEqualTo: "$userId" ).get();
+    QuerySnapshot query = await announcementCollection
+        .where("ownerId", isEqualTo: "$userId")
+        .get();
 
     return query.docs;
   }
 
   static Future getFavoritesList() async {
-    QuerySnapshot query = await announcementCollection.where("isFavorite", isEqualTo: "ja").get();
-
+    QuerySnapshot query =
+        await announcementCollection.where("isFavorite", isEqualTo: "ja").get();
 
     return query.docs;
   }

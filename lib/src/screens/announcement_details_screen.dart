@@ -98,11 +98,14 @@ class _AnnouncementDetailsScreenStateState
                   SizedBox(
                     height: 10.0,
                   ),
-                  Text(
-                    "${announcement.descriptionAnnouncement}",
-                    style: TextStyle(
-                        fontWeight: FontWeight.normal, fontSize: 20.0),
+                  Center(
+                    child: Text(
+                      "${announcement.descriptionAnnouncement}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontSize: 20.0),
+                    ),
                   ),
+
                   SizedBox(
                     height: 10.0,
                   ),
@@ -131,7 +134,7 @@ class _AnnouncementDetailsScreenStateState
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
-                      width: 160.0,
+                      width: 140.0,
                       height: 80.0,
                       child: RaisedButton.icon(
                         onPressed: () {
@@ -147,8 +150,9 @@ class _AnnouncementDetailsScreenStateState
                         elevation: 0.0,
                       ),
                     ),
+                    SizedBox(width: 40.0,),
                     Container(
-                      width: 160.0,
+                      width: 140.0,
                       height: 80.0,
                       child: RaisedButton.icon(
                         color: greenApp,

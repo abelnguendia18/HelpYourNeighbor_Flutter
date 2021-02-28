@@ -27,8 +27,11 @@ class _SingUpHomeState extends State<SingUpHome> {
   final TextEditingController _passwordController = TextEditingController();
   final _globalKey = GlobalKey<ScaffoldState>();
 
+
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       key: _globalKey,
       body: SingleChildScrollView(
@@ -58,7 +61,9 @@ class _SingUpHomeState extends State<SingUpHome> {
             ),
             Form(
               child: Container(
-                width: 320.0,
+                padding: EdgeInsets.only(top: 50.0),
+                width: screenWidth - 50,
+                height: screenHeight,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -78,7 +83,7 @@ class _SingUpHomeState extends State<SingUpHome> {
                     ),
                     _buildTextField(
                         _passwordController, Icons.lock, 'Password'),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 30.0),
                     Container(
                       height: 40.0,
                       width: 300.0,

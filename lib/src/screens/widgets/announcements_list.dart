@@ -134,9 +134,11 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                                 ),
                               ),
                               Container(
-                                width: 900,
+                                //padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                                //width: 900,
                                 //Group 2: location, favIcon
                                 child: Row(
+
                                   children: <Widget>[
                                     Icon(
                                       EvaIcons.pinOutline,
@@ -157,7 +159,9 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
                                     ),
 
                                     Container(
-                                        padding: EdgeInsets.only(left: 150),
+                                        padding: EdgeInsets.only(
+                                          left: 150,
+                                        ),
                                         child: IconButton(
                                           icon: snapshot.data[index]
                                                       ['isFavorite'] ==
@@ -214,6 +218,4 @@ class _AnnouncementsListState extends State<AnnouncementsList> {
       ),
     );
   }
-
-
 }
